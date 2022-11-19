@@ -9,3 +9,37 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Category {
+  id        String    @id @default(uuid())
+  name      String
+  createdAt DateTime  @default(now())
+  projects  Project[]
+
+  @@map("categories")
+}
+
+model Project {
+  id         String    @id @default(uuid())
+  name       String
+  cost       Float
+  budget     Float
+  categoryId String
+  createdAt  DateTime  @default(now())
+  categories Category  @relation(fields: [categoryId], references: [id])
+  services   Service[]
+
+  @@map("projects ")
+}
+
+model Service {
+  id          String   @id @default(uuid())
+  name        String
+  cost        Float
+  description String
+  createdAt   DateTime @default(now())
+  projectId   String
+  projects    Project  @relation(fields: [projectId], references: [id])
+
+  @@map("services")
+}
