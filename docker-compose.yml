@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  db_devcosts:
+    image: postgres
+    container_name: db_devcosts
+    restart: always
+    ports:
+      - 5533:5432
+    environment:
+      - POSTGRES_USER=devcosts
+      - POSTGRES_PASSWORD=devcosts
+      - POSTGRES_DB=devcosts
+    volumes:
+      - pgdata:/data/postgres
+volumes:
+  pgdata:
+    driver: local
