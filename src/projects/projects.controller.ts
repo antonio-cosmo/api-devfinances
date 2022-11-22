@@ -1,15 +1,17 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Res } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-import { CreateProjectDTO } from "./dto/create-project.dto";
-import { UpdateProjectDTO } from "./dto/update-project.dto";
+import { CreateProjectDto } from "./dto/create-project.dto";
+import { UpdateProjectDto } from "./dto/update-project.dto";
 import { ProjectsService } from "./projects.service";
 
+@ApiTags('projects')
 @Controller('projects')
 export class ProjectsController{
     constructor(private readonly projectsService: ProjectsService){}
 
     @Post()
-    async create(@Body() createProjectDTO: CreateProjectDTO,  @Res() res: Response){
+    async create(@Body() createProjectDTO: CreateProjectDto,  @Res() res: Response){
         await this.projectsService.create(createProjectDTO);
         return res.status(201).json({message: 'Projeto criada'});
         
@@ -28,7 +30,7 @@ export class ProjectsController{
     }
 
     @Patch(':id')
-    async update(@Param('id') id: string, @Body() updateProjectDTO: UpdateProjectDTO, @Res() res: Response){
+    async update(@Param('id') id: string, @Body() updateProjectDTO: UpdateProjectDto, @Res() res: Response){
         await this.projectsService.update(id, updateProjectDTO);
         return res.status(200).json({message: 'Projeto atualizado'});
 
